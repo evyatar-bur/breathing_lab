@@ -1,4 +1,7 @@
 %% Part 2 
+clc
+clear
+close all
 
 % Load data
 data_set_2 = load('Part2_recording.mat');
@@ -75,12 +78,12 @@ C_R_RR = 60/C_R_breath_duration;
 
 %% Section 3 - Computing coralation between signals
 
-figure;
-wcoherence(resperation(7700:9880),resperation(14540:16720));
+figure(1)
+wcoherence(resperation(7700:9880),resperation(14540:16720),fs,'PhaseDisplayVector',1);
 title('Cross spectrum of the hypoventilation section vs. the cough and read section')
 
 figure;
-wcoherence(resperation(1813:3993),resperation(14540:16720));
+wcoherence(resperation(1813:3993),resperation(14540:16720),fs,'PhaseDisplayVector',1);
 title('Cross spectrum of the hyperventilation section vs. the cough and read section')
 
 

@@ -72,12 +72,8 @@ FRC = RV + ERV;
 fs = 1/((data_set.isi)*(10^-3));
 
 figure(1)
-spectrogram(air_volume,120,80,10000,fs);
+spectrogram(air_volume - mean(air_volume),140,100,10000,fs);
 title('Spectrogram of air volume measured in the spiromtry test')
 xlim([0 5])
-
-t = (0:length(air_volume)-1)/fs;
-
-
 
 
