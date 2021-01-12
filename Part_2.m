@@ -1,22 +1,21 @@
-%% Part 2 
+%% Breathing lab - Part two
 clc
 clear
 close all
 
 % Load data
-data_set_2 = load('Part2_recording.mat');
 
+data_set_2 = load('Part2_recording.mat');
 resperation = data_set_2.data(:,2);
 
-fs = 1/((data_set_2.isi)*(10^-3));
+% Set sample frequency and time vector
+fs = 100;
 t = (0:length(resperation)-1)/fs;
 
-figure;
-plot(t,resperation)
 
 %% Section 1 - Resting state
 
-% Insperation duration (calculated manually)
+% Insperation duration (calculated manually from the signal plot)
 
 insp_durations = [2.69 2.4 2.2];
 
@@ -34,11 +33,11 @@ exp_STD = std(exp_durations);
 
 % Total breathing cycles durations (calculated manually)
 
-
 breath_durations = [4.91 4.89 4.87];
 
 total_breath_duration = mean(breath_durations);
 total_STD = std(breath_durations);
+
 
 % Calculate resting respration_rate
 
@@ -52,27 +51,41 @@ RR_rest_STD = std(respration_rates);
 
 % Hyperventilation
 
+% Finding peaks in hyperventilation section
 peaks_hyper = findpeaks(resperation(1700:4220));
 
-Hyper_breath_duration = ((4220-1700)/fs)/length(peaks_hyper);
+% Deviding the length of the section in the number of peaks to get the mean
+% duration of each breath cycle
+Hyper_breath_duration = ((4220-1700)/fs)/length(peaks_hyper); % Sec
 
-Hyper_RR = 60/Hyper_breath_duration;
+% Finding respiration rate
+Hyper_RR = 60/Hyper_breath_duration; % Cycles/Min
+
 
 % Hypoventilation
 
+% Finding peaks in hypoventilation section
 peaks_hypo = findpeaks(resperation(7692:10600),'MinPeakProminence',0.5);
 
-Hypo_breath_duration = ((10600-7692)/fs)/(length(peaks_hypo)+1);
+% Deviding the length of the section in the number of peaks to get the mean
+% duration of each breath cycle
+Hypo_breath_duration = ((10600-7692)/fs)/(length(peaks_hypo)+1); % Sec
 
-Hypo_RR = 60/Hypo_breath_duration;
+% Finding respiration rate
+Hypo_RR = 60/Hypo_breath_duration; % Cylces/Min
+
 
 %% Cough and read
 
+% Finding peaks in Cough and read section
 peaks_C_R = findpeaks(resperation(13760:16710),'MinPeakProminence',0.5);
 
-C_R_breath_duration = ((16710-13760)/fs)/(length(peaks_C_R)+1);
+% Deviding the length of the section in the number of peaks to get the mean
+% duration of each breath cycle
+C_R_breath_duration = ((16710-13760)/fs)/(length(peaks_C_R)+1); % Sec
 
-C_R_RR = 60/C_R_breath_duration;
+% Finding respiration rate
+C_R_RR = 60/C_R_breath_duration; % Cycles/Min
 
 
 
@@ -82,9 +95,8 @@ figure(1)
 wcoherence(resperation(7700:9880),resperation(14540:16720),fs,'PhaseDisplayVector',1);
 title('Cross spectrum of the hypoventilation section vs. the cough and read section')
 
-figure;
+figure(2)
 wcoherence(resperation(1813:3993),resperation(14540:16720),fs,'PhaseDisplayVector',1);
 title('Cross spectrum of the hyperventilation section vs. the cough and read section')
-
 
 
