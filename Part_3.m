@@ -70,4 +70,9 @@ mean_slope = mean(slopes);
 STD_slope = std(slopes);
 
 
+% hypothetically, we would now check calculated mean temperature rise rate,
+% and compare it to a threshold to decide if the subject is at risk of
+% having asthma, or other airway inflammatory disease.
+
+
 
