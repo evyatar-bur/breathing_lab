@@ -100,3 +100,43 @@ wcoherence(resperation(1813:3993),resperation(14540:16720),fs,'PhaseDisplayVecto
 title('Cross spectrum of the hyperventilation section vs. the cough and read section')
 
 
+%% Section 4 - Computing RR, and showing it with the signal
+
+% Find peaks and their locations
+[~,peak_index] = findpeaks(resperation,'MinPeakProminence',0.5);
+
+% Preallocate RR vector for speed
+RR_vector = zeros(1,length(peak_index)-1);
+
+for i = 2:length(peak_index)
+
+    % Computing the time difference between peaks 
+    diff = (peak_index(i) - peak_index(i-1))/fs;
+    
+    % Calculating RR for each peak
+    RR_vector(i-1) = 60/diff;
+     
+end  
+
+% setting a time vector corralating with the RR vector
+peak_times = peak_index/fs;
+
+
+% Plotting RR vector and signal together
+figure(3)
+subplot(2,1,1)
+
+plot(t,resperation)
+
+title('Voltage as a function of time')
+xlabel('Time [Sec]')
+ylabel('Voltage [mV]')
+
+subplot(2,1,2)
+
+plot(peak_times(2:end),RR_vector)
+
+title('RR as a function of time')
+xlabel('Time [Sec]')
+ylabel('RR [Breath cycles per minute]')
+
